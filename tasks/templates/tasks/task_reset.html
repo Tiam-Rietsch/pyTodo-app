@@ -1,0 +1,23 @@
+{% extends 'pages/base.html' %} 
+
+{% load crispy_forms_tags %} 
+
+{% load static %} 
+
+{% block extrahead %} 
+    <script src="{% url 'js-catalog' %}"></script>
+    <script src="{% static 'admin/js/core.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'admin/css/widgets.css' %}">
+{% endblock extrahead %}
+
+{% block content %} 
+    <h2>Reset</h2>
+    <p>also reset the dead line </p>
+    <form action="" method="post">
+        {% csrf_token %} 
+        {{ form|crispy }}
+        {{ form.media }}
+        <button type="submit" class="btn btn-success">Reset</button>
+        <a href="{% url 'cat_detail' task.category.slug %}" class="btn btn-outline-secondary">Back</a>
+    </form>
+{% endblock content %}

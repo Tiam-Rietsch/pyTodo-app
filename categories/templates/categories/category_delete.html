@@ -1,0 +1,14 @@
+{% extends 'pages/base.html' %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+    <h2>Delete Task Category</h2>
+    <form action="" method="post">
+        {% csrf_token %}
+        {{ form|crispy }}
+        <p>Are you really sure you want to delete the category "{{ category.title }" ?</p>
+        <button type="submit" class="btn btn-danger">Yes Delete</button>
+        <a href="{% url 'cat_detail' category.slug %}" class="btn btn-outline-secondary">No Cancel</a>
+    </form>
+{% endblock content %}

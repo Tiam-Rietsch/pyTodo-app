@@ -1,0 +1,164 @@
+{% extends 'pages/base.html' %}
+
+{% load static %}
+
+{% block extrahead %}
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Kalam">
+    <style>
+        #home-header {
+           background: url("{% static 'img/blue_wave.jpg' %}");
+           background-repeat: no-repeat;
+           background-size: cover;
+           height: 90vh;
+           width: 100%;
+           display: flex;
+           align-items: center;
+           justify-content: center;
+        }
+
+        #title-container {
+            background: url("{% static 'img/blue_wave.jpg' %}");
+            background-repeat: no-repeat;
+            background-size: cover;
+            border-radius: 20px;
+            height: 80%;
+            width: 80%;
+            padding: 50px;
+            box-shadow: 7px 4px 100px 10px rgba(0, 0, 0, 0.5);
+            font-family: Kalam, sans-serif;
+            color: white;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        #title-container >h1 {
+            font-size: 89px;
+        }
+
+        #title-container >h1::before {
+            content:"";
+            position: absolute;
+            width: 200px;
+            height: 10px;
+            background-color: white;
+            top: 36%;
+        }
+
+        #app-description {
+            background: url("{% static 'img/desc_background.jpg' %}");
+            background-position-y: -100px;
+            background-repeat: no-repeat;
+            background-size: cover;
+            width: 100%;
+            height: fit-content;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            padding-top: 100px;
+        }
+
+        .img-description {
+            width: 80%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 40px;
+            margin-bottom: 100px;
+        }
+
+        .img-description img {
+            width: 100%;
+            height: 370px;
+            border: 2px solid black;
+            border-radius: 10px;
+            box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.5);;
+        }
+
+        .img-description .desc-text {
+            padding-left: 40px;
+            padding-right: 40px;
+            padding-top: 0;
+            padding-bottom: 100px;
+            height: 370px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: flex-start;
+        }
+
+        .img-description p {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-weight: 600;
+            font-size: 36px;
+            color: white;
+            align-self: flex-start;
+        }
+    </style>
+{% endblock extrahead %}
+
+{% block home_content %}
+<section id="home-header">
+    <div id="title-container">
+        <h1>Welcome to pyTodo</h1>
+        <h2>"A good, simple and efficient task manager built with django in python that enables
+            you to plan your activities smoothly"
+        </h3>
+    </div>
+</section>
+
+<section id="app-description">
+    <div class="img-description">
+        <img src="{% static 'img/tasks_screenshot.png' %}" alt="">
+        <div class="desc-text">
+            <p>Manage you time efficiently by adding tasks for every of your daily activities</p>
+            {% if not user.is_authenticated %}
+            <div class="d-flex">
+                <a href="{% url 'login' %}" class="btn btn-outline-dark mt-4">Login and start planning</a> 
+                <a href="{% url 'signup' %}" class="btn btn-primary mt-4 ml-3">signup and join</a>
+            </div>
+            {% else %}
+            <div class="d-flex">
+                <a href="{% url 'cat_list' %}" class="btn btn-primary mt-4">Manage your tasks</a> 
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="img-description">
+        <div class="desc-text">
+            <p> Group your tasks into categories for better management and easily keep track of your progress</p>
+            {% if not user.is_authenticated %}
+            <div class="d-flex">
+                <a href="{% url 'login' %}" class="btn btn-outline-dark mt-4">Login and start planning</a> 
+                <a href="{% url 'signup' %}" class="btn btn-primary mt-4 ml-3">signup and join</a>
+            </div>
+            {% else %}
+            <div class="d-flex">
+                <a href="{% url 'cat_list' %}" class="btn btn-primary mt-4">Manage your tasks</a> 
+            </div>
+            {% endif %}
+        </div>
+        <img src="{% static 'img/categories_screenshot.png' %}" alt="">
+    </div>
+
+    <div class="img-description">
+        <img src="{% static 'img/chart_image.png' %}" alt="">
+        <div class="desc-text">
+            <p>keep track of your daily statistics and easily evalutate your productivity</p>
+            {% if not user.is_authenticated %}
+            <div class="d-flex">
+                <a href="{% url 'login' %}" class="btn btn-outline-dark mt-4">Login and start planning</a> 
+                <a href="{% url 'signup' %}" class="btn btn-primary mt-4 ml-3">signup and join</a>
+            </div>
+            {% else %}
+            <div class="d-flex">
+                <a href="{% url 'cat_list' %}" class="btn btn-primary mt-4">Manage your tasks</a> 
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</section>
+{% endblock home_content %}

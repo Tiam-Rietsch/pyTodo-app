@@ -1,0 +1,13 @@
+{% extends 'pages/base.html' %} 
+
+{% load crispy_forms_tags %} 
+
+{% block content %} 
+    <h2>Edit Category</h2>
+    <form action="" method="post">
+        {% csrf_token %} 
+        {{ form|crispy }}
+        <button type="submit" class="btn btn-success">Save changes</button>
+        <a href="{% url 'cat_detail' category.slug %}" class="btn btn-outline-secondary">Cancel</a>
+    </form>
+{% endblock content %}

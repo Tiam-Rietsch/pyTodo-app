@@ -1,0 +1,23 @@
+{% extends 'pages/base.html' %}
+
+{% load static %}
+
+{% load crispy_forms_tags %}
+
+{% block extrahead %}
+    <script src="{% url 'js-catalog' %}"></script>
+    <script src="{% static '/admin/js/core.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'admin/css/core.css' %}">
+    <link rel="stylesheet" href="{% static 'admin/css/widgets.css' %}">
+{% endblock extrahead%}
+
+{% block content %} 
+    <h2>Create Task</h2>
+    <form action="" method="post">
+        {% csrf_token %}
+        {{ form|crispy }}
+        <button type="submit" class="btn btn-success">Create</button>
+        <a href="{% url 'cat_detail' view.kwargs.slug %}" class="btn btn-outline-secondary">Cancel</a>
+        {{ form.media }}
+    </form>
+{% endblock content %}

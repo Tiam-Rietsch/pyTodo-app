@@ -1,0 +1,162 @@
+{% extends 'pages/base.html' %}
+{% load static %}
+
+{% block extrahead %}
+<style>
+    .category-card {
+        padding: 0;
+        width: 1000px;
+        margin-bottom: 20px;
+        /*border: 1px solid  rgb(238, 238, 238);*/
+        box-shadow: 5px 6px 6px rgba(0, 0, 0, 0.2);
+        margin: auto;
+        margin-bottom: 20px;
+    }
+
+    .c-title {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+    }
+
+    .c-body {
+        padding: 10px;
+        border: 2px solid  rgb(238, 238, 238);
+        height: 150px;
+    }
+
+    .c-body .description {
+        font-style: italic;
+    }
+
+    .c-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        /*border-top: 1px solid  rgb(238, 238, 238);*/
+        padding: 10px;
+        background-color: rgb(90, 105, 201);
+        height: 70px;
+    }
+
+    .desc {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .progress-container {
+        height: 70px;
+        width: 70px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .circular-progress {
+        position: relative;
+        border-radius: 50%;
+        height: 60px;
+        width: 60px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        transition: 0.3s ease;
+    }
+
+    .circular-progress::before {
+        content: "";
+        position: absolute;
+        border-radius: 50%;
+        height: 50px;
+        width: 50px;
+        background-color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    /*
+    .progress-value {
+        
+        height: 40px;
+        width: 40px;
+        border-radius: 50%;
+        background-color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 5px;
+        transition: 0.3s ease;
+        
+    }
+    */
+
+    .progress-value {
+        position: relative;
+        font-size: 16px;
+        font-weight: bold;
+        font-family: "Poppins", sans-serif;
+    }
+</style>
+{% endblock extrahead %}
+
+{% block content %}
+
+    <span class="d-inline-flex align-items-center mt-5">
+        <h3>Task List</h3> <a href="{% url 'create_cat' %}" class="btn btn-primary ml-4">+ New Category</a>
+    </span>
+    <hr>
+    <div class="d-flex justify-content-start align-items-center flex-wrap w-100 ml-auto mr-auto">
+        {% for cat in cat_list %}
+            <div class="category-card">
+                <div class="c-body">
+                    <div class="c-title">
+                        <h4>{{ cat.title }}</h4>
+                        {% if cat.is_new %}
+                            <img src="{% static 'img/new.png' %}" alt="" style="height:30px; width:30px;">
+                        {% endif %}
+                    </div>
+                    <hr>
+                    <div class="desc">
+                        <div class="description mr-4">{{ cat.description }}</div>
+                        <div class="progress-container">
+                            
+                            <div class="circular-progress">
+                                <div class="progress-value">
+                                    {{ cat.get_progress }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="c-footer">
+                    <div class="options">
+                        <a href="{% url 'cat_detail' cat.slug %}" class="btn btn-outline-dark">Manage Tasks</a>
+                        <a href="{% url 'cat_delete' cat.slug %}" class="btn btn-warning ml-3">Delete</a>    
+                    </div>
+                    <span class="mr-3 font-weight-bold">
+                        {{ cat.get_status }}
+                        {% if cat.get_status == 'Completed' %}
+                            <img src="{% static 'img/check.png' %}" alt="" style="height:20px; width:20px;">
+                        {% elif cat.get_status == 'Empty' %}
+                            <img src="{% static 'img/no-task.png' %}" alt="" style="height:20px; width:20px;">
+                        {% elif cat.get_status == 'On progress' %}
+                            <img src="{% static 'img/work-in-progress.png' %}" alt="" style="height:20px; width:20px;">
+                        {% endif %}
+
+                    </span>
+                </div>
+            </div>
+        {% endfor %}
+      </div>
+    <hr>
+
+
+
+{% endblock content %}
+
+{% block extrascript %}
+    <script src="{% static 'js/script.js' %}"></script>
+{% endblock extrascript %}

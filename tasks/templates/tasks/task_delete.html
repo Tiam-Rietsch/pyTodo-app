@@ -1,0 +1,12 @@
+{% extends 'pages/base.html' %} 
+
+{% block content %} 
+    <h2>Delete Task</h2>
+    <form action="" method="post">
+        {% csrf_token %} 
+        {{ form.as_p }} 
+        <h6>Are you really sure you want to delete the task "{{ task.title }}" ?</h6>
+        <button type="submit" class="btn btn-danger">Delete</button> 
+        <a href="{% url 'cat_detail' task.category.slug %}" class="btn btn-outline-secondary">Cancel</a>
+    </form>
+{% endblock content %}

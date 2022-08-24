@@ -1,0 +1,6 @@
+{% extends 'pages/base.html' %}
+
+{% block content %}
+    <h2>That Name "{{ name }}" has already been used, use another name for your category</h2>
+    <a href="{% url 'create_cat' %}" class="btn btn-danger">Try another</a>
+{% endblock content %}

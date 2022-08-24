@@ -1,0 +1,15 @@
+{% extends 'pages/base.html' %}
+
+{% load crispy_forms_tags %} 
+
+
+{% block content %} 
+    <h2 class="mt-3">Update &middot; "{{ task.title }}" Task </h2>
+    <hr>
+    <form action="" method="post" class="mt-3">
+        {% csrf_token %} 
+        {{ form|crispy }} 
+        <button type="submit" class="btn btn-success">Update</button> 
+        <a href="{% url 'cat_detail' task.category.slug %}" class="btn btn-outline-secondary">Cancel</a>
+    </form>
+{% endblock content %}

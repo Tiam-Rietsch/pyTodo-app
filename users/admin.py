@@ -2,16 +2,10 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from .forms import CustomUserCreationForm, CustomUserChangeForm
 from .models import CustomUser
-#from categories.models import Category
-
-
-
-'''#class CathegoryInline(admin.StackedInline):
-    model = Category
-    extra = 0'''
-
+from stats.admin import DailyProgressInline
 
 class CustomUserAdmin(UserAdmin, admin.ModelAdmin):
+    inlines = [DailyProgressInline]
     add_form = CustomUserCreationForm
     form = CustomUserChangeForm
     list_display = ('username', 'email', 'is_staff',)

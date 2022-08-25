@@ -5,10 +5,10 @@
 {% load crispy_forms_tags %}
 
 {% block extrahead %}
+    <link rel="stylesheet" href="{% static 'css/mystyles.css' %}">
+    <link rel="stylesheet" href="{% static 'admin/css/widgets.css' %}">
     <script src="{% url 'js-catalog' %}"></script>
     <script src="{% static '/admin/js/core.js' %}"></script>
-    <link rel="stylesheet" href="{% static 'admin/css/core.css' %}">
-    <link rel="stylesheet" href="{% static 'admin/css/widgets.css' %}">
 {% endblock extrahead%}
 
 {% block content %} 
@@ -21,3 +21,6 @@
         {{ form.media }}
     </form>
 {% endblock content %}
+
+{% block extrascript %}
+{% endblock extrascript %}

@@ -7,7 +7,7 @@ from tasks.models import Task
 #  MANAGER
 class DailyProgressManager(models.Manager):
     def create_instance(self, logged_user):
-        # first checks if the if there there is no instance of the the same date
+        # first checks if the if there there is no model instance of the the same date
         objects = DailyProgress.objects.filter(user=logged_user, date=timezone.now().date())
         if len(objects) == 0:
             UD = logged_user.username + " - " + str(timezone.now().date())
@@ -26,9 +26,9 @@ class DailyProgress(models.Model):
     user_date = models.CharField(primary_key=True, max_length=100) # username + date of the instance (UD)
     date = models.DateField(default=timezone.now().date())
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
-    n_completed = models.IntegerField(default=0)
-    n_expired = models.IntegerField(default=0)
-    n_querying = models.IntegerField(default=0)
+    n_completed = models.IntegerField(default=0) # number of tasks completed
+    n_expired = models.IntegerField(default=0) # number of tasks expired
+    n_querying = models.IntegerField(default=0) # number of tasks In progress
 
     objects = DailyProgressManager() # set the object manager
     

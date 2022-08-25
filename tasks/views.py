@@ -8,6 +8,7 @@ from django.shortcuts import render
 from .models import Task
 from .forms import TaskCreateForm, TaskUpdateForm, TaskResetForm
 from categories.models import Category
+from stats.models import DailyProgress
 
 
 class TaskCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
@@ -21,11 +22,12 @@ class TaskCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
         form.instance.author = self.request.user
         cat = Category.objects.get(slug=self.kwargs.get('slug')) # get the Category Instance using the slug from the url 
         form.instance.category = cat
+        
         return super().form_valid(form)  
 
 
     # redirect the user the cat_detail template after success
-    def get_success_url(self):
+    def get_success_url(self):        
         self.success_url = reverse_lazy('cat_detail', kwargs={'slug': self.kwargs.get('slug')})
         return super().get_success_url()
     
@@ -41,7 +43,7 @@ class TaskDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     login_url = 'login'
 
     # redirect the user to the cat_list template
-    def get_success_url(self):
+    def get_success_url(self):        
         obj = Task.objects.get(pk=self.kwargs.get('pk'))
         self.success_url = reverse_lazy('cat_detail', kwargs={'slug':obj.category.slug})
         return super().get_success_url()
@@ -62,6 +64,7 @@ class TaskUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         obj = self.get_object()
         self.success_url = reverse_lazy('cat_detail', kwargs={'slug':obj.category.slug})
         return super().get_success_url()
+
 
     def test_func(self):
         obj = self.get_object()

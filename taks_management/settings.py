@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'pages.apps.PagesConfig',
     'tasks.apps.TasksConfig',
     'categories.apps.CategoriesConfig',
+    'stats.apps.StatsConfig',
 
     # 3rd party
     'crispy_forms',
@@ -139,5 +140,5 @@ AUTH_USER_MODEL = 'users.CustomUser'
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 # redirect the user after login and logout
-LOGIN_REDIRECT_URL = 'home'
+LOGIN_REDIRECT_URL = 'cat_list'
 LOGOUT_REDIRECT_URL = 'home'

@@ -34,12 +34,12 @@
 </head>
 <body>
     {% block navigation %}
-        <nav class="navbar navbar-expand-md navbar-dark bg-dark " style="position:sticky; top:0px; left:0px; z-index: 9999;">
+        <nav class="navbar navbar-expand-md navbar-dark bg-dark ">
             <a href="{% url 'home' %}" class="navbar-brand">My Todo App</a>
-            <button class="navbar-toggler" data-toggle="collapse" data-target="#itemCollapse" aria-expanded="false">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#itemCollapse" aria-controls="itemCollapse" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse" id="itemCollapse" style="width:100%; display:flex; justify-content:flex-end">
+            <div class="collapse navbar-collapse" id="itemCollapse">
                 {% if user.is_authenticated %}
                     <ul class="navbar-nav ml-3">
                         <li class="nav-item" id="Tlist"><a href="{% url 'cat_list' %}" class="nav-link">Tasks list</a></li>
@@ -54,7 +54,7 @@
                         </li>
                     </ul>
                 {% else %}
-                    <form class="form-inline ml-auto mb-auto">
+                    <form class="form-inline ml-auto">
                         <a href="{% url 'login' %}" class="btn btn-primary">Login</a>
                         <a href="{% url 'signup' %}" class="btn btn-outline-success ml-3">SignUp</a>
                     </form>

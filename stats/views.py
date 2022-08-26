@@ -73,6 +73,7 @@ def dash_board_view(request):
         line_chart = plot(line_figure, output_type="div")
         
         context = {
+            "line_chart_2": line_chart,
             "line_chart": line_chart,
             "bar_chart": bar_chart,
             "pie_chart": pie_chart

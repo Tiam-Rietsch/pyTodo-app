@@ -11,8 +11,8 @@
 {% endblock extrahead %}
 
 {% block content %} 
-    <h2>Reset</h2>
-    <p>also reset the dead line </p>
+    <h2>Reset / Postpone</h2>
+    <p>insert the new dead line</p>
     <form action="" method="post">
         {% csrf_token %} 
         {{ form|crispy }}

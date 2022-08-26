@@ -4,17 +4,91 @@
 
 {% load tz %}
 
+{% block extrahead %}
+<style>
+    @media (min-width: 360px) and (max-width:500px) {
+        .container {
+            padding:10px;
+        }
+        .btn {
+            font-size: 11px;
+            width: 100%;
+        }
+
+        .table {
+            width: fit-content;
+            word-wrap: none;
+        }
+
+        .option-group {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .option-group .btn {
+            width: fit-content;
+        }
+
+        .title {
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        body {
+            font-size: 11px;
+        }
+
+        table {
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        thead {
+            display: none
+        }
+
+        tr, td {
+            display: block;
+        }
+
+        td {
+            position: relative;
+            text-align: center;
+        }
+
+        tr {
+            width: 300px;
+            border: 1px solid rgb(150, 149, 149);
+            border-radius: 10px;
+            margin-bottom: 10px;
+        }
+
+        td::before {
+            content:attr(data-label);
+            position: absolute;
+            left: 10px;
+        }
+
+    }
+</style>
+{% endblock extrahead %}
+
 {% block content %}
     <h3 class="mt-4">{{ category.title }} . Tasks</h3>
     <p class="mt-3">
-        <a href="{% url 'cat_delete' category.slug %}" class="btn btn-danger">Delete Category</a>
-        <a href="{% url 'cat_update' category.slug %}" class="btn btn-warning">Edit Category</a>
-        <a href="{% url 'task_create' category.slug %}" class="btn btn-outline-primary ml-3">+ Add Task</a>
+        <div class="option-group">
+            <a href="{% url 'cat_delete' category.slug %}" class="btn btn-danger">Delete Category</a>
+            <a href="{% url 'cat_update' category.slug %}" class="btn btn-warning">Edit Category</a>
+            <a href="{% url 'task_create' category.slug %}" class="btn btn-outline-primary ml-3">+ Add Task</a>
+        </div>
+        <hr><br>
+        <span>Querying</span>
         <hr>
         <table class="table mb-5 ">
             <thead style="background-color:#B8DAFF">
                 <tr>
-                    <th scope="col">Querying Tasks</th>
+                    <th scope="col">Tasks</th>
                     <th scope="col">Created On</th>
                     <th scope="col">Dead Line</th>
                     <th scope="col"></th>
@@ -28,9 +102,9 @@
                 {% for task in category.task_list.all %}
                     {% if task.is_querying %}
                     <tr>
-                        <td>{{ task.title }}</td>
-                        <td>{{ task.created_on }}</td>
-                        <td>{{ task.dead_line }}</td>
+                        <td class="title">{{ task.title }}</td>
+                        <td data-label="created on">{{ task.created_on }}</td>
+                        <td data-label="dead line">{{ task.dead_line }}</td>
                         <td><a href="{% url 'task_delete' task.pk %}" class="btn btn-danger">Delete</a></td>
                         <td><a href="{% url 'task_update' task.pk %}" class="btn btn-success">Update</a></td>
                     </tr>
@@ -42,10 +116,14 @@
                 {% endfor %}
             </tbody>
         </table>
+
+        <br>
+        <span>Expired</span>
+        <hr>
         <table class="table mb-5">
             <thead  style="background-color:#F5C6CB">
                 <tr>
-                    <th scope="col">Expired Tasks</th>
+                    <th scope="col">asks</th>
                     <th scope="col">Created On</th>
                     <th scope="col">Dead Line</th>
                     <th scope="col"></th>
@@ -57,21 +135,25 @@
                 {% for task in category.task_list.all %}
                     {% if task.is_expired %}
                     <tr style="color:#F36461;">
-                        <td style="font-weight: 900;">{{ task.title }}</td>
-                        <td>{{ task.created_on }}</td>
-                        <td>{{ task.dead_line }}</td>
+                        <td style="font-weight: 900;" class="title">{{ task.title }}</td>
+                        <td data-label="created on">{{ task.created_on }}</td>
+                        <td data-label="dead line">{{ task.dead_line }}</td>
                         <td><a href="{% url 'task_delete' task.pk %}" class="btn btn-danger">Delete</a></td>
                         <td><a href="{% url 'task_update' task.pk %}" class="btn btn-success">Update</a></td>
-                        <td><a href="{% url 'task_reset' task.pk %}" class="btn btn-outline-secondary">Reset</a></td>
+                        <td><a href="{% url 'task_reset' task.pk %}" class="btn btn-outline-secondary">Post pone</a></td>
                     </tr>
                     {% endif %}
                 {% endfor %}
             </tbody>
         </table>
+
+        <br>
+        <span>Completed</span>
+        <hr>
         <table class="table">
             <thead style="background-color:#C3E6CB">
                 <tr>
-                    <th scope="col">Completed Tasks</th>
+                    <th scope="col">Tasks</th>
                     <th scope="col">Created On</th>
                     <th scope="col">Dead Line</th>
                     <th scope="col"></th>
@@ -83,9 +165,9 @@
                 {% for task in category.task_list.all %}
                     {% if task.is_completed %}
                     <tr style="text-decoration: line-through;">
-                        <td>{{ task.title }}</td>
-                        <td>{{ task.created_on }}</td>
-                        <td>{{ task.dead_line }}</td>
+                        <td class="title">{{ task.title }}</td>
+                        <td data-label="created on">{{ task.created_on }}</td>
+                        <td data-label="dead line">{{ task.dead_line }}</td>
                         <td><a href="{% url 'task_delete' task.pk %}" class="btn btn-danger">Delete</a></td>
                         <td><a href="{% url 'task_update' task.pk %}" class="btn btn-success">Update</a></td>
                         <td><a href="{% url 'task_reset' task.pk %}" class="btn btn-outline-secondary">Reset</a></td>

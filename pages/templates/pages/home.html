@@ -96,6 +96,64 @@
             color: white;
             align-self: flex-start;
         }
+
+        @media (min-width: 360px) and (max-width: 860px) {
+            #home-header {
+                height: 50vh;
+                width: 100%;
+                background-repeat: no-repeat;
+                background-size: cover;
+            }
+
+            #title-container {
+                border-radius: 5px;
+                padding: 20px;
+                width: 95%;
+            }
+
+            #title-container >h1 {
+                font-size: 36px;
+                align-self: center;
+                margin-top: auto;
+                margin-bottom: auto;
+            }
+
+            #title-container >h2 {
+                font-size: 16px;
+            }
+
+            #title-container >h1::before {
+            content:"";
+            position: absolute;
+            width: 90px;
+            height: 3px;
+            background-color: white;
+            top: 46%;
+            }
+
+            .img-description {
+                flex-direction: column;
+                justify-content: space-evenly;
+            }
+            
+            .d-flex {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .d-flex >a {
+                width: fit-content;
+            }
+
+            .desc-text {
+                margin-top: 10px;
+                margin-bottom: 10px;
+            }
+
+            .desc-text >p {
+                font-size: 24px;
+            }
+        }
     </style>
 {% endblock extrahead %}
 
@@ -117,23 +175,24 @@
             {% if not user.is_authenticated %}
             <div class="d-flex">
                 <a href="{% url 'login' %}" class="btn btn-outline-dark mt-4">Login and start planning</a> 
-                <a href="{% url 'signup' %}" class="btn btn-primary mt-4 ml-3">signup and join</a>
+                <a href="{% url 'signup' %}" class="btn btn-primary mt-4">signup and join</a>
             </div>
             {% else %}
             <div class="d-flex">
-                <a href="{% url 'cat_list' %}" class="btn btn-primary mt-4">Manage your tasks</a> 
+                <a href="{% url 'cat_list' %}" class="btn btn-primary mt-4 mr-3">Manage your tasks</a> 
             </div>
             {% endif %}
         </div>
     </div>
 
     <div class="img-description">
+        <img src="{% static 'img/categories_screenshot.png' %}" alt="">
         <div class="desc-text">
             <p> Group your tasks into categories for better management and easily keep track of your progress</p>
             {% if not user.is_authenticated %}
             <div class="d-flex">
-                <a href="{% url 'login' %}" class="btn btn-outline-dark mt-4">Login and start planning</a> 
-                <a href="{% url 'signup' %}" class="btn btn-primary mt-4 ml-3">signup and join</a>
+                <a href="{% url 'login' %}" class="btn btn-outline-dark mt-4 mr-3">Login and start planning</a> 
+                <a href="{% url 'signup' %}" class="btn btn-primary mt-4">signup and join</a>
             </div>
             {% else %}
             <div class="d-flex">
@@ -141,7 +200,6 @@
             </div>
             {% endif %}
         </div>
-        <img src="{% static 'img/categories_screenshot.png' %}" alt="">
     </div>
 
     <div class="img-description">
@@ -150,8 +208,8 @@
             <p>keep track of your daily statistics and easily evalutate your productivity</p>
             {% if not user.is_authenticated %}
             <div class="d-flex">
-                <a href="{% url 'login' %}" class="btn btn-outline-dark mt-4">Login and start planning</a> 
-                <a href="{% url 'signup' %}" class="btn btn-primary mt-4 ml-3">signup and join</a>
+                <a href="{% url 'login' %}" class="btn btn-outline-dark mt-4 mr-3">Login and start planning</a> 
+                <a href="{% url 'signup' %}" class="btn btn-primary mt-4">signup and join</a>
             </div>
             {% else %}
             <div class="d-flex">

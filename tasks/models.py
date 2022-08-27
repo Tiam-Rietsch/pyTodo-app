@@ -1,9 +1,6 @@
 from django.db import models
-from django.forms import DateTimeField
 from django.contrib.auth import get_user_model
 from django.urls import reverse
-from matplotlib.widgets import Widget
-from categories.models import Category
 from django.utils import timezone
 
 

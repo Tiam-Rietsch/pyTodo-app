@@ -46,7 +46,7 @@ INSTALLED_APPS = [
     'pages.apps.PagesConfig',
     'tasks.apps.TasksConfig',
     'categories.apps.CategoriesConfig',
-    'stats.apps.StatsConfig',
+    'user_stats.apps.UserStatsConfig',
 
     # 3rd party
     'crispy_forms',

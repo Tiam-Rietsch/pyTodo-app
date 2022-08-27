@@ -20,7 +20,7 @@ from django.views.i18n import JavaScriptCatalog
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('statistics/', include('stats.urls')),
+    path('statistics/', include('user_stats.urls')),
     path('tasks/', include('tasks.urls')),
     path('task_categories/', include('categories.urls')),
     path('users/', include('django.contrib.auth.urls')),

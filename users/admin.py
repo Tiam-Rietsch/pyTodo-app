@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from .forms import CustomUserCreationForm, CustomUserChangeForm
 from .models import CustomUser
-from stats.admin import DailyProgressInline
+from user_stats.admin import DailyProgressInline
 
 class CustomUserAdmin(UserAdmin, admin.ModelAdmin):
     inlines = [DailyProgressInline]

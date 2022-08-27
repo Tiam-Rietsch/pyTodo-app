@@ -7,7 +7,7 @@ from tasks.models import Task
 
 def dash_board_view(request):
     if request.method == 'GET':
-        template_name = 'stats/stats_detail.html'
+        template_name = 'user_stats/stats_detail.html'
         DailyProgress.add_instance(request.user)
         DailyProgress.refresh_database(request.user)
         

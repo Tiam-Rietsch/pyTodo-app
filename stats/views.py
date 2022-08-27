@@ -14,68 +14,44 @@ def dash_board_view(request):
         DailyProgress.add_instance(request.user)
         DailyProgress.refresh_database(request.user)
         
-        # ------------------------------------------PIE CHART
-        qs = Task.objects.filter(author=request.user).order_by("created_on")
-        pie_data_frame = [
-            {
-                "title": "Querying",
-                "value": (len([task for task in qs if task.is_querying])/len(qs)) * 100,
-            },
-            {
-                "title": "Expired",
-                "value": (len([task for task in qs if task.is_expired])/len(qs)) * 100,
-            },
-            {
-                "title": "Completed",
-                "value": (len([task for task in qs if task.is_completed])/len(qs)) * 100,
-            },
-        ]
+         #---------------------Bar chart
+        qs = Category.objects.filter(author=request.user)
+        bar_data = {
+            "titles": [cat.title for cat in qs],
+            "Querying": [
+                len([ task for task in cat.task_list.all() if task.is_querying]) for cat in qs
+            ],
+            "Expired": [
+                len([ task for task in cat.task_list.all() if task.is_expired]) for cat in qs
+            ],
+            "Completed": [
+                len([ task for task in cat.task_list.all() if task.is_completed]) for cat in qs
+            ]
+        }
         
-        pie_df = pd.DataFrame(pie_data_frame)
-        pie_figure = px.pie(pie_df, values="value", names="title", color="title", color_discrete_map={"Completed": "#00CC96", "Querying": "#636EFA", "Expired": "#EF553B"})
-        pie_chart = plot(pie_figure, output_type="div")
+        #----------------------LineChart
+        qs = DailyProgress.objects.filter(user=request.user).order_by('date')
+        line_data = {
+            "titles": [str(progress.date) for progress in qs],
+            "querying_progress": [progress.n_querying for progress in qs],
+            "expired_progress": [progress.n_expired for progress in qs],
+            "completed_progress": [progress.n_completed for progress in qs]
+        }
         
-        # ------------------------------------------BAR CHART
-        qs = Category.objects.filter(author=request.user).order_by("-title")
-        bar_data_frame = [
-            {
-                "Category": cat.title,
-                "Querying": len([task for task in Task.objects.filter(category=cat) if task.is_querying]),
-                "Expired": len([task for task in Task.objects.filter(category=cat) if task.is_expired]),
-                "Completed": len([task for task in Task.objects.filter(category=cat) if task.is_completed]),
-            } for cat in qs 
-        ]
-        
-        bar_df = pd.DataFrame(bar_data_frame)
-        bar_figure = px.bar(bar_df, x="Category", y=["Completed", "Querying", "Expired"], color_discrete_map={"Completed": "#00CC96", "Querying": "#636EFA", "Expired": "#EF553B"})
-        bar_figure.update_layout(title="Categories status", xaxis_title="Categories", yaxis_title="Number of tasks")
-        
-        bar_chart = plot(bar_figure, output_type="div")
-        
-        # ------------------------------------------LINE CHART
-        # create a data frame
-        qs = DailyProgress.objects.filter(user=request.user).order_by("date")
-        line_data_frame = [ 
-            {
-                "date": date_values.date,
-                "querying": date_values.n_querying,
-                "expired": date_values.n_expired,
-                "completed": date_values.n_completed,   
-            } for date_values in qs
-        ]
-        line_df = pd.DataFrame(line_data_frame)
-        
-        # create the line chart figure
-        line_figure = px.line(line_df, x="date", y=["querying", "expired", "completed"], markers=True)
-        line_figure.update_layout(title="Daily Progress", yaxis_title="Number of tasks")
-        
-        # plot the figure as a div
-        line_chart = plot(line_figure, output_type="div")
+        #---------------------PieChart
+        qs = Task.objects.filter(author=request.user)
+        pie_data = {
+            "titles": ["Querying", "Expired", "Completed"],
+            "data": [
+                len([task for task in qs if task.is_querying]),
+                len([task for task in qs if task.is_expired]),
+                len([task for task in qs if task.is_completed]),
+            ]
+        }
         
         context = {
-            "line_chart_2": line_chart,
-            "line_chart": line_chart,
-            "bar_chart": bar_chart,
-            "pie_chart": pie_chart
+            "bar_data": bar_data,
+            "line_data": line_data,
+            "pie_data": pie_data
         }
         return render(request, template_name, context)

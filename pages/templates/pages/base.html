@@ -34,7 +34,7 @@
 </head>
 <body>
     {% block navigation %}
-        <nav class="navbar navbar-expand-md navbar-dark bg-dark ">
+        <nav class="navbar navbar-expand-md navbar-dark bg-dark" style="position:sticky; z-index:1111;">
             <a href="{% url 'home' %}" class="navbar-brand">My Todo App</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#itemCollapse" aria-controls="itemCollapse" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -63,17 +63,19 @@
         </nav>
     {% endblock navigation%}
 
-    {% block home_content %}
-    {% endblock home_content %}
 
     <div class="container">
         {% block content %}
         {% endblock content %}
     </div>
 
-    {% block extrascript %}
-    {% endblock extrascript %}
+    {% block home_content %}
+    {% endblock home_content %}
+
     <script src="{% static 'js/jquery-3.6.0.js' %}"></script>
     <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    {% block extrascript %}
+    {% endblock extrascript %}
 </body>
 </html>

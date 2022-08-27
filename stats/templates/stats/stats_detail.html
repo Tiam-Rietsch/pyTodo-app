@@ -1,75 +1,218 @@
 {% extends 'pages/base.html' %}
 
-{% block extrahead %}
-    <style>
-        #top-container {
-            width: 100%;
-            height: 480px;
-            display: flex;
+{% load dictionary_tags %}
+
+{% block extrahead %} 
+<style>
+    #heading-container{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        height: 60vh;
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
+
+    #bar, #pie {
+        width: 48%;
+        height: 100%;
+        border: 1px solid rgb(221, 214, 205);
+        border-radius: 20px;
+        box-shadow: 0px 10px 10px rgba(0, 0, 0, 0.2);
+        padding: 7px;
+    }
+
+    #line {
+        margin-left: auto;
+        margin-right: auto;
+        width: 60%;
+        height: 80vh;
+    }
+
+    #lineChart {
+        border: 1px solid rgb(221, 214, 205);
+        border-radius: 20px;
+        box-shadow: 0px 10px 10px rgba(0, 0, 0, 0.2);
+        padding: 10px;
+    }
+
+
+
+    @media (min-width: 360px) and (max-width: 600px) {
+        #heading-container {
             flex-direction: column;
             justify-content: space-between;
-            align-items: center;   
-            margin-bottom: 20px;
+            height: 100vh;
+        }
+
+
+        #bar, #pie {
+            width: 100%;
+            height: 100%;
             margin-top: 20px;
         }
-        #bar-chart-frame, #pie-chart-frame {
-            width: 100%;
-            height: 480px;
-            border: 1px solid black;
-            border-radius: 10px;
-            box-shadow: 2px 5px 10px rgba(0, 0, 0, 0.2);
-            margin-bottom: 10px;
-        }
-        #line-chart-frame {
-            width: 100%;
-            height: 480px;
-            border: 1px solid black;
-            border-radius: 10px;
-            box-shadow: 2px 5px 10px rgba(0, 0, 0, 0.2);
-            padding: 20px;
-            margin-bottom: 10px;
+
+        #lineChart {
+            border-radius: 0;
         }
 
-        @media (min-width: 360px) and (max-width:500px) {
-            #top-container {
-                flex-direction: column;
-                padding: 0;
-            }
-            
-            #bar-chart-frame, #pie-chart-frame {
-                width: 100%;
-                display: block;
-            }
-        
-            #main-align {
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                justify-content: space-between;
-            }
-
-            #line-chart-frame {
-                display: none;
-            }
-
+        #line {
+            height: 50vh;
+            width: 100vw;
+            margin-top: auto;
+            margin-bottom: auto;
         }
-    </style>
-
-    
+    }
+</style>
 {% endblock extrahead %}
 
 {% block content %}
-    {% autoescape off %}
-    <div id="top-container">
-        <div id="bar-chart-frame">
-            {{ bar_chart }}
+        <div id="heading-container">
+            <div id="bar"><canvas id="barChart" width="300" height="300"></canvas></div>
+            <div id="pie"><canvas id="pieChart" width="300" height="300"></canvas></div>
         </div>
-        <div id="pie-chart-frame">
-            {{ pie_chart }}
-        </div>
-    </div>
-    <div id="line-chart-frame">
-        {{ line_chart }}
-    </div>
-{% endautoescape %}
 {% endblock content %}
+
+{% block home_content %}
+    <div id="line"><canvas id="lineChart"></canvas></div>
+{% endblock home_content %}
+
+{% block extrascript %} 
+<script>
+const bar_canvas = document.getElementById('barChart').getContext('2d');
+
+const BarChart = new Chart(bar_canvas, {
+    type: 'bar',
+    data: {
+        labels: {{ bar_data|key:"titles"|safe }},
+        datasets: [
+            {
+                type: 'bar',
+                label: 'Querying',
+                data: {{ bar_data|key:"Querying"|safe }},
+                backgroundColor: 'rgba(184, 218, 255, 0.5)',
+                borderColor: 'rgba(92, 157, 225, 1)',
+                borderWidth: 2
+            },
+            {
+                type: 'bar',
+                label: 'Expired',
+                data: {{ bar_data|key:"Expired"|safe }},
+                backgroundColor: 'rgba(245, 198, 203, 0.5)',
+                borderColor: 'rgba(240, 159, 167, 1)',
+                borderWidth: 2
+            },
+            {
+                type: 'bar',
+                label:'Completed',
+                data: {{ bar_data|key:"Completed"|safe }},
+                backgroundColor: 'rgba(195, 230, 203, 0.5)',
+                borderColor: 'rgba(148, 225, 166, 1)',
+                borderWidth: 2
+            },
+            
+        ]
+    },
+    options: {
+        plugins: {
+            title: {
+                display: true,
+                text: "Category Details"
+            }
+        },
+        scales: {
+            y: {
+                beginAtZero: true
+            }
+        }
+    }
+});
+
+
+const pie_canvas = document.getElementById('pieChart').getContext('2d');
+
+const PieChart = new Chart(pie_canvas, {
+    type: 'pie',
+    data: {
+        labels: {{ pie_data|key:"titles"|safe }},
+        datasets: [
+            {
+                data: {{ pie_data|key:"data"|safe }},
+                backgroundColor: [
+                    'rgb(184, 218, 255, 1)',
+                    'rgb(245, 198, 203, 1)',
+                    'rgb(195, 230, 203, 1)',
+                ],
+                hoverOffset: 40,
+            }
+            
+        ]
+    },
+    options: {
+        plugins: {
+            title: {
+                display: true,
+                text: "Tasks Overview"
+            }
+        },
+        scales: {
+            y: {
+                beginAtZero: true
+            }
+        }
+    }
+});
+
+
+
+const line_canvas = document.getElementById('lineChart').getContext('2d');
+const tension = 0.3
+const LineChart = new Chart(line_canvas, {
+    type: 'line',
+    data: {
+        labels: {{ line_data|key:"titles"|safe }},
+        datasets: [
+            {
+                type: 'line',
+                label: 'Querying',
+                data: {{ line_data|key:"querying_progress"|safe }},
+                borderColor: 'rgba(92, 157, 225, 1)',
+                borderWidth: 2,
+                tension: tension
+            },
+            {
+                type: 'line',
+                label: 'Expired',
+                data: {{ line_data|key:"expired_progress"|safe }},
+                borderColor: 'rgba(240, 159, 167, 1)',
+                borderWidth: 2,
+                tension: tension
+            },
+            {
+                type: 'line',
+                label:'Completed',
+                data: {{ line_data|key:"completed_progress"|safe }},
+                borderColor: 'rgba(148, 225, 166, 1)',
+                borderWidth: 2,
+                tension: tension
+            },
+            
+        ]
+    },
+    options: {
+        plugins: {
+            title: {
+                display: true,
+                text: "Daily Progress"
+            }
+        },
+        scales: {
+            y: {
+                beginAtZero: true
+            }
+        }
+    }
+});
+</script>
+{% endblock extrascript %}

@@ -1,11 +1,9 @@
-from audioop import reverse
 from django.shortcuts import render
 from .models import DailyProgress
 from plotly.offline import plot
 from categories.models import Category
 from tasks.models import Task
-import plotly.express as px
-import pandas as pd
+
 
 
 def dash_board_view(request):

@@ -1,6 +1,5 @@
 from django.shortcuts import render
 from .models import DailyProgress
-from plotly.offline import plot
 from categories.models import Category
 from tasks.models import Task
 

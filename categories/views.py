@@ -1,4 +1,3 @@
-from django.shortcuts import reverse
 from django.db import IntegrityError
 from django.shortcuts import render
 from django.views.generic.list import ListView

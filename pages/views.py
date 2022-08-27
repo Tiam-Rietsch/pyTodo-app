@@ -1,4 +1,3 @@
-from tkinter.ttk import Style
 from django.views.generic.base import TemplateView
 
 

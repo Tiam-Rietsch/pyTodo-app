@@ -6,6 +6,10 @@
 
 {% block extrahead %}
 <style>
+    .option-group >a {
+        margin-right: 20px;
+    }
+
     @media (min-width: 360px) and (max-width:700px) {
         .container {
             padding:10px;
@@ -28,7 +32,7 @@
         }
 
         .option-group .btn {
-            width: fit-content;
+            width: 80%;
         }
 
         .title {
@@ -81,7 +85,7 @@
         <div class="option-group">
             <a href="{% url 'cat_delete' category.slug %}" class="btn btn-danger">Delete Category</a>
             <a href="{% url 'cat_update' category.slug %}" class="btn btn-warning">Edit Category</a>
-            <a href="{% url 'task_create' category.slug %}" class="btn btn-outline-primary ml-3">+ Add Task</a>
+            <a href="{% url 'task_create' category.slug %}" class="btn btn-outline-primary">+ Add Task</a>
             <a href="{% url 'cat_list' %}" class="btn btn-secondary">Back</a>
         </div>
         <hr><br>

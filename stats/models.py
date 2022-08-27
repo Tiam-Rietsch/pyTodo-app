@@ -23,7 +23,7 @@ class DailyProgressManager(models.Manager):
 
 # MODEL
 class DailyProgress(models.Model):
-    user_date = models.CharField(primary_key=True, max_length=100) # username + date of the instance (UD)
+    user_date = models.CharField(max_length=100) # username + date of the instance (UD)
     date = models.DateField(default=timezone.now().date())
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     n_completed = models.IntegerField(default=0) # number of tasks completed

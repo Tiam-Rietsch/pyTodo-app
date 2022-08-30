@@ -37,4 +37,11 @@ class Task(models.Model):
     def is_expired(self):
         return timezone.now() >= self.dead_line and not self.completed
     
- 
+    @property
+    def get_status(self):
+        if self.is_querying:
+            return "Querying"
+        elif self.is_completed:
+            return "Completed"
+        elif self.is_expired:
+            return "Expired"

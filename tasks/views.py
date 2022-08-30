@@ -8,7 +8,6 @@ from django.shortcuts import render
 from .models import Task
 from .forms import TaskCreateForm, TaskUpdateForm, TaskResetForm
 from categories.models import Category
-from stats.models import DailyProgress
 
 
 class TaskCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):

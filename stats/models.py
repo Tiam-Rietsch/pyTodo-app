@@ -1,3 +1,4 @@
+from time import time
 from django.db import models
 from django.utils import timezone
 from users.models import CustomUser
@@ -47,9 +48,8 @@ class DailyProgress(models.Model):
     # reset the databese values for all instances that match the user   
     @classmethod
     def refresh_database(cls, logged_user):
-        all_progress = cls.objects.filter(user=logged_user)
-        for progress in all_progress:
-            progress.reset_instance(logged_user)          
+        progress = cls.objects.get(user=logged_user, date=timezone.now().date())
+        progress.reset_instance(logged_user)          
 
     
     # reset the value of n_completed, n_expired, n_querying

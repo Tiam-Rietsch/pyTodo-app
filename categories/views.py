@@ -31,6 +31,7 @@ class CreateCategoryView(LoginRequiredMixin, CreateView):
     login_url = 'login'
     
 
+    # strip and remove all alpha characters from a string
     def replace_characters(self, s):
         s2 = "".join(c for c in s if c.isalpha() or c == " ")
         return s2
